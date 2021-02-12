@@ -1,0 +1,17 @@
+<mat-card class="home mat-elevation-z3">
+    <mat-card-title class="title">Excluir Produto</mat-card-title>
+    <mat-card-subtitle class="subtitle">Excluir Produto ou Cancelar a Ação
+    </mat-card-subtitle>
+    <form action="">
+        <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome do Produto" [(ngModel)]="produto.name" name="name" disabled>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Preço</mat-label>
+            <input matInput placeholder="Preço do Produto" [(ngModel)]="produto.price" name="price" disabled>
+        </mat-form-field>
+    </form>
+    <button (click)="deleteProduct()" mat-raised-button color="primary">Excluir</button>
+    <button (click)="cancelDeleteProduct()" mat-raised-button color="warn">Cancelar</button>
+</mat-card>

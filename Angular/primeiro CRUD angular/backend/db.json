@@ -1,0 +1,29 @@
+{
+  "products": [
+    {
+      "name": "controle ps4",
+      "price": 325.08,
+      "id": 2
+    },
+    {
+      "name": "the last of us part 2",
+      "price": "190.22",
+      "id": 3
+    },
+    {
+      "name": "teclado Logitech",
+      "price": "450",
+      "id": 4
+    },
+    {
+      "name": "lapis de escrita fina",
+      "price": "5",
+      "id": 5
+    },
+    {
+      "name": "mouse",
+      "price": "54",
+      "id": 6
+    }
+  ]
+}

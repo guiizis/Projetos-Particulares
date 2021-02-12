@@ -1,0 +1,20 @@
+mat-toolbar{
+    background-color: #673ab7
+}
+
+.header{
+    display: flex;
+    align-items: center;
+
+}
+
+.header .a{
+    display: flex;
+    align-items: center;
+    text-decoration:none;   
+}
+
+.header .title-group{
+    padding: 2vw;
+    color: #fff;
+}

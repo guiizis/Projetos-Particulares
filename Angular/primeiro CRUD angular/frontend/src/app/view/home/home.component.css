@@ -1,0 +1,9 @@
+.home .title {
+    line-height: 1vw;
+    font-weight: 300;
+    font-size: 2em;
+}
+
+.home .subtitle {
+    font-size: 1.1rem;
+}

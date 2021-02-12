@@ -1,0 +1,24 @@
+mat-sidenav {
+  width: 200px;
+  background-color: #b794f6;
+
+}
+
+mat-nav-list {
+  padding: 1vw;
+
+}
+
+mat-nav-list i {
+  padding-right: 0.5vw;
+
+}
+
+.sidenav a {
+  color: white;
+}
+
+.content {
+  padding: 2em;
+  background-color: #fff;
+}

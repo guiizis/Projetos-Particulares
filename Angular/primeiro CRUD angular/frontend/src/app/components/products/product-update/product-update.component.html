@@ -1,0 +1,17 @@
+<mat-card class="home mat-elevation-z3">
+    <mat-card-title class="title">Alterar Produto</mat-card-title>
+    <mat-card-subtitle class="subtitle">Alterar Produto ou Cancelar a Ação
+    </mat-card-subtitle>
+    <form action="">
+        <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Insira o Nome do Produto" [(ngModel)]="produto.name" name="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Preço</mat-label>
+            <input matInput placeholder="Insira o Preço do Produto" [(ngModel)]="produto.price" name="price">
+        </mat-form-field>
+    </form>
+    <button (click)="updateProduct()" mat-raised-button color="primary">Alterar</button>
+    <button (click)="cancelUpdateProduct()" mat-raised-button color="warn">Cancelar</button>
+</mat-card>
