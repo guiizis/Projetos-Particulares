@@ -1,0 +1,93 @@
+ mat-card {
+   padding: 0px;
+ }
+
+ .content-img {
+   width: 100%;
+   height: 50%;
+ }
+
+ /* ============== pics ============= */
+ .img-background {
+
+   display: block;
+   background-image: url("https://i.pinimg.com/originals/c6/2c/27/c62c27cdcc512c10b54143e4bcfa6c42.jpg");
+   background-position: center;
+   background-size: cover;
+   border-radius: 4px;
+   width: 100%;
+   height: 100%;
+
+ }
+
+ .about-me .profile-pic {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .about-me img {
+   position: absolute;
+   border-radius: 50%;
+   width: 20%;
+   height: 42%;
+   box-shadow:
+     0px 3px 5px -1px rgb(0 0 0 / 20%),
+     0px 6px 10px 0px rgb(0 0 0 / 14%),
+     0px 1px 18px 0px rgb(0 0 0 / 12%);
+ }
+
+ /* ============== pics ============= */
+
+ .user-info {
+   display: flex;
+
+ }
+
+ .info-profile-pessoal {
+   display: flex;
+   justify-content: center;
+   position: relative;
+   top: 10em;
+
+ }
+
+ .about-me .user-info {
+   position: relative;
+   top: 11em;
+   display: flex;
+   justify-content: space-around;
+ }
+
+ .about-me .socialMedia {
+   position: relative;
+   top: 12em;
+   display: flex;
+   justify-content: center;
+
+ }
+
+ .about-me .socialMedia a {
+   margin: 0.5em;
+ }
+
+
+ .about-me .user-info .value {
+   margin-right: 2em;
+   font-weight: 300;
+ }
+
+ .about-me .user-info .title-text {
+   font-weight: 500;
+ }
+
+
+ .home .title {
+   line-height: 1vw;
+   font-weight: 300;
+   font-size: 2em;
+ }
+
+ .home .subtitle {
+   font-size: 1.1rem;
+ }

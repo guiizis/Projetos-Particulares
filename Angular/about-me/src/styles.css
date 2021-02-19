@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+  box-sizing: content-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.v-middle {
+  vertical-align: middle;
+}
+
+.yellow {
+  color: gold;
+}
+
+.mat-tab-labels {
+  justify-content: space-between !important;
+}
+
+mat-card {
+  margin-bottom: 1em;
+  width: 100em;
+  height: 42em;
+}
+
+
+mat-drawer-content .imgTempoLivre {
+  height: 100%;
+  width: 100%;
+  min-height: 373.69px !important;
+}
