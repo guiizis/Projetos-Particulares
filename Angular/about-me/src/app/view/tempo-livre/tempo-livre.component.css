@@ -85,3 +85,26 @@ mat-card-content img {
   height: 100%;
   padding: 0px;
 }
+
+@media only screen   
+and (min-device-width : 769px)   
+and (max-device-width : 1400px)  {
+
+  mat-list .moviesCards {
+    height: 18em;
+    width: 26em;
+  }
+
+  mat-list .titleAndSubtitle {
+    height: 134.8px;
+    width: 88px;
+  }
+
+  mat-card-content .booksImg {
+    max-width: 202.19px ;
+    max-height:500.8px;
+    
+  }
+
+  
+}

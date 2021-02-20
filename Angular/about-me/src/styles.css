@@ -40,3 +40,18 @@ mat-drawer-content .imgTempoLivre {
   width: 100%;
   min-height: 373.69px !important;
 }
+
+
+
+@media only screen   
+and (min-device-width : 769px)   
+and (max-device-width : 1400px)  {
+
+  mat-card {
+  margin-bottom: 1em;
+  width: 63em;
+  height: 40em;
+  }
+
+  
+}
