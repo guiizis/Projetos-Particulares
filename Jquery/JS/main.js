@@ -1,16 +1,25 @@
 //global variables
-let checkedAnswer
-let index = 0
-let dataGlobal
-let numberOfQuestion = 1
-let timePoints = 16 // add um segundo por conta da demora do primeiro load das perguntas
-let timerStart
-let score = 0
-let correctAnswers = 0
+const global = {
+    checkedAnswer: false,
+    index: 0,
+    dataGlobal: [],
+    numberOfQuestion: 1,
+    timePoints: 15,
+    timerStart: null,
+    score: 0,
+    correctAnswers: 0,
+    chronometer: null,
+    durationTime: 0,
+    music: new Audio("./assets/Lost Woods 8 Bit.mp3")
+}
+
+
+
 
 
 $('document').ready(() => {
     console.log("hey there :)")
+
 })
 
 //on click's
@@ -19,18 +28,33 @@ $("#btn_login").on("click", () => {
 })
 
 $("#btn_confirm").on("click", () => {
-    index++
-    verifyAnswer(checkedAnswer,index,dataGlobal,timerStart)
+    global.index++
+    verifyAnswer(global.checkedAnswer, global.index, global.dataGlobal, global.timerStart)
 })
+
+//on click's
+$("#btn_newGame").on("click", () => {
+    resetGame()
+
+})
+
 
 
 
 // caputrar resultado da api
 const startQuiz = async () => {
     removeLogin()
-    const { results: data } = await requisitionData()
-    dataGlobal=data
-    buildTemplateQuestions(data, index)
+
+    let data = await requisitionData()
+
+    global.dataGlobal = data
+
+    buildTemplateQuestions(data, global.index)
+
+    startTimeCount()
+
+    startMusic()
+
 }
 
 //verificar se o nome do usario esta vazio e dar start no quiz
@@ -39,7 +63,7 @@ const verifyUserName = () => {
     if (userName.trim().length == 0) {
         $("#div_AlertNickName").removeClass("dsNone")
     } else {
-        
+
         startQuiz()
     }
 }
@@ -61,20 +85,24 @@ const removeLogin = () => {
 
     }, 1500)
 }
- 
+
 
 
 // montando lista de perguntas e adicionando listener para o click, metodo de reset para timer e etc
 const buildTemplateQuestions = (data, index) => {
     const questionCard = $("#quizQuestions")
+    //sem mais perguntas disponiveis, finalizar  o jogo
+    if (data[index] == undefined) {
+        wrongAnswer(global.correctAnswers, global.score, global.durationTime)
+    }
     let currentQuestion = buildQuestion(data[index])
     let question = $("#h6_titleQuestion")
-    let questionText=""
+    let questionText = ""
     const placar = $("#h6_placar")
-    
+
 
     currentQuestion.map((question, index) => {
-         questionText += `
+        questionText += `
             <a class="list-group-item list-group-item-action" checkAnswer>
                 ${question.answer}
                 <input type="hidden" value="${question.isCorrect}" hiddenValue> 
@@ -83,9 +111,14 @@ const buildTemplateQuestions = (data, index) => {
         `
     })
 
-    questionCardContent=`
-    <div class="list-group" answersBox> ${questionText} 
-        <h6 class="text-center mt-2" id="h6_timePoints" name="h6_timePoints">${timePoints}</h6>
+    // <h6 class="categoryTitle">Dificuldade:<b> ${data[index]['difficulty']} </b> </h6>
+
+    questionCardContent = `
+    <div class="list-group" answersBox>
+        <h6 class="categoryTitle text-center" >Categoria: <b>  ${data[index]['category']} </b> </h6>
+        
+        ${questionText} 
+        <h6 class="text-center mt-2" id="h6_timePoints" name="h6_timePoints">${global.timePoints}</h6>
         <div class="progress mt-1">
             <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
@@ -95,37 +128,42 @@ const buildTemplateQuestions = (data, index) => {
 
     $(questionCard).append(questionCardContent)
 
-    $(placar).text(`${numberOfQuestion}/${data.length}`)
+    $(placar).text(`${global.numberOfQuestion}/${data.length}`)
 
     markAnswer()
 
-    clearInterval(timerStart)
-    
+    clearIntervals(global.timerStart)
+
     resetTimer()
 
     startCount(".progress-bar")
 
-    
 
-    numberOfQuestion++
+
+    global.numberOfQuestion++
 }
 
 // montar perguntas  e retornar elas embaralhadas
 const buildQuestion = (question) => {
+
     let answers = []
-    const correctAnswer = { isCorrect: true, answer:question["correct_answer"]}
+
+    const correct = {
+        isCorrect: true,
+        answer: question["correct_answer"]
+    }
     console.log(question["correct_answer"])
 
-    question["incorrect_answers"].map((answer,index)=>{
+    question["incorrect_answers"].map((answer, index) => {
         answers.push({
-            isCorrect:false,
+            isCorrect: false,
             answer
         })
     })
 
     console.log(answers)
-    answers.push(correctAnswer)
-    
+    answers.push(correct)
+
     return shuffle(answers)
 
 }
@@ -145,66 +183,121 @@ function shuffle(Array) {
 }
 
 //marcar respostas
-function markAnswer(){
-    $('[checkAnswer]').on("click",function(event){
-        
+function markAnswer() {
+    $('[checkAnswer]').on("click", function (event) {
+
         removeAnotherCheckedAnswer(this)
 
         $(this).addClass('selectedItem')
-        
-        checkedAnswer = $(this).find('[hiddenvalue]').val()
-        
+
+        global.checkedAnswer = $(this).find('[hiddenvalue]').val()
+
     })
 }
 
 
 //remover outras marcadas
-const removeAnotherCheckedAnswer=(element)=>{
-    $(element).parent().find(".selectedItem").each((index,element)=>{
+const removeAnotherCheckedAnswer = (element) => {
+    $(element).parent().find(".selectedItem").each((index, element) => {
         $(element).removeClass("selectedItem")
     })
 }
 
-const verifyAnswer = (answer,index,dataGlobal,timerStart)=>{
-    
-     
-    clearInterval(timerStart)
+const verifyAnswer = (answer, index, dataGlobal, timerStart) => {
+
+
+    clearIntervals(timerStart)
     markTheAnswers()
 
-    if(answer == 'true'){
-        score += Number($('#h6_timePoints').text())
-        correctAnswers++
-        correctAnswer(index,dataGlobal)
-    }else{
-        wrongAnswer(correctAnswers,score)
+    if (answer == 'true') {
+        global.score += Number($('#h6_timePoints').text())
+        global.correctAnswers++
+        correctAnswerChecked(index, dataGlobal)
+    } else {
+        wrongAnswer(global.correctAnswers, global.score, global.durationTime)
     }
 }
 
-const startCount=(classElement)=>{
-    let widthOfProgress= 100
-    
-     timerStart = setInterval(()=>{
-        
-        timePoints--
-        widthOfProgress -= 6.66
-        
-        $(classElement).css("width",`${widthOfProgress}%`)
-        attTime(timePoints)
+const startCount = (classElement) => {
+    let widthOfProgress = 100
 
-        if(timePoints == 0){
-            clearInterval(timerStart)
+    global.timerStart = setInterval(() => {
+
+        global.timePoints--
+        widthOfProgress -= 6.66
+
+        $(classElement).css("width", `${widthOfProgress}%`)
+        attTime(global.timePoints)
+
+        if (global.timePoints == 0) {
             wrongAnswer()
         }
-    
-    },1000)
+
+    }, 1000)
 }
 
-const resetTimer =() =>{
-    
-    timePoints=16
+const resetTimer = () => {
+
+    global.timePoints = 16
 }
 
-const attTime =(time)=>{
+const attTime = (time) => {
     $('#h6_timePoints').text(time)
 }
- 
+
+const startTimeCount = () => {
+    global.chronometer = setInterval(() => {
+        global.durationTime++
+    }, 1000)
+}
+
+const resetGame = () => {
+    clearGlobalObject()
+    $('#myModal').modal('toggle')
+    emptyChields()
+    unlockPanel()
+    startQuiz()
+}
+
+const clearIntervals = (setInterval) => {
+    clearInterval(setInterval)
+}
+
+const clearGlobalObject = () => {
+
+    global.checkedAnswer = false
+    global.index = 0
+    global.dataGlobal = []
+    global.numberOfQuestion = 1
+    global.timePoints = 16
+    global.timerStart = null
+    global.score = 0
+    global.correctAnswers = 0
+    global.chronometer = null
+    global.durationTime = 0
+
+}
+
+const saveScore = (score) => {
+    let result = localStorage.getItem("scores");
+
+    if (!result) {
+        result = [];
+    } else {
+        result = JSON.parse(result);
+    }
+
+    result.push(score);
+    localStorage.setItem("scores", JSON.stringify(result));
+}
+
+const startMusic = () => {
+    global.music.volume = 0.2;
+    global.music.play()
+    global.music.loop = true;
+}
+
+const stopMusic = () => {
+    global.music.pause();
+    global.music.currentTime = 0
+}
