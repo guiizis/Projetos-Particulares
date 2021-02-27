@@ -46,6 +46,7 @@ const startQuiz = async () => {
     removeLogin()
 
     let data = await requisitionData()
+     
 
     global.dataGlobal = data
 
@@ -230,7 +231,7 @@ const startCount = (classElement) => {
         attTime(global.timePoints)
 
         if (global.timePoints == 0) {
-            wrongAnswer()
+            wrongAnswer(global.correctAnswers, global.score, global.durationTime)
         }
 
     }, 1000)

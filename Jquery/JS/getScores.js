@@ -19,10 +19,12 @@ const buildScoreTable = (...scores) => {
     let rows = ''
 
     scores.map((player, index) => {
+        if (player == undefined) return
+
         rows +=
             ` 
     <tr>
-        <th scope="row">${index  + 1}</th>
+        <th scope="row">${index + 1}</th>
         <td>${player.name}</td>
         <td>${player.correctAnswers}</td>
         <td>${player.score}</td>

@@ -9,7 +9,8 @@ const requisitionData = () => {
         })
         .catch(error => {
             alert("error on API")
-            console.log(error)
+            throw error
+             
         })
 }
 
